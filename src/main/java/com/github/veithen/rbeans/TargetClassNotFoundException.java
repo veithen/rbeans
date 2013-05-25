@@ -16,7 +16,7 @@
 package com.github.veithen.rbeans;
 
 /**
- * Indicates that the class specified by {@link RBean#target()} was not found.
+ * Indicates that the class specified by {@link Target} was not found.
  * 
  * @author Andreas Veithen
  */

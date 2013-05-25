@@ -43,8 +43,8 @@
         <connection>scm:git:https://github.com/veithen/rbeans.git</connection>
         <developerConnection>scm:git:https://github.com/veithen/rbeans.git</developerConnection>
         <url>https://github.com/veithen/rbeans</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

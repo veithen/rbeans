@@ -41,7 +41,7 @@
     </developers>
     <scm>
         <connection>scm:git:https://github.com/veithen/rbeans.git</connection>
-        <developerConnection>scm:git:https://github.com/veithen/rbeans.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:veithen/rbeans.git</developerConnection>
         <url>https://github.com/veithen/rbeans</url>
         <tag>HEAD</tag>
     </scm>

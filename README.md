@@ -67,6 +67,15 @@ are preserved. However, for this to work, all relevant RBean types must be known
 RBeanFactory. To ensure this, specify the RBean types in the list passed to the constructor
 of the `RBeanFactory` or use the `@SeeAlso` annotation.
 
+Accessing attributes through an RBean
+-------------------------------------
+
+To access attributes of the target object through an RBean, define a method on the
+RBean interface and annotate it with the `@Accessor` annotation.
+
+`@Mapped`
+---------
+
 In some cases, it is useful to replace objects returned by a method with their corresponding
 RBeans, while passing through objects for which no RBean exists. Consider for example a
 method with return type `Object`. At runtime, if the method returns a `String`,
@@ -79,21 +88,20 @@ conditions is satisfied:
   
 * The return type of the method is an interface and the relevant RBeans extend this
   interface.
+
+The `@Mapped` annotation is also supported on attribute accessors.
+
+Collections
+-----------
   
 Automatically wrapping returned objects as RBeans is also supported for collections.
 To enable this, declare the return type as `Iterable<T>`, where `T` is an RBean interface.
-
-Accessing attributes through an RBean
--------------------------------------
-
-To access attributes of the target object through an RBean, define a method on the
-RBean interface and annotate it with the `@Accessor` annotation.
 
 Accessing static attributes and methods
 ---------------------------------------
 
 In order to access static attributes and methods of a given target class, create an
-RBean interface with `isStatic=true` in the `@RBean` annotation. When creating the
+RBean interface that extends `StaticRBean`. When creating the
 RBean instance, use the variant of the `createRBean` method that doesn't take
 an instance parameter.
 

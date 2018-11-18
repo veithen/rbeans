@@ -1,0 +1,21 @@
+dist: trusty
+language: java
+jdk:
+  - openjdk8
+  - openjdk9
+  - openjdk10
+  - openjdk11
+before_install: if [ -e $JAVA_HOME/lib/security/cacerts ]; then ln -sf /etc/ssl/certs/java/cacerts $JAVA_HOME/lib/security/cacerts; fi
+install: true
+script: mvn -B -s .travis-settings.xml -Prelease -Dgpg.skip=true verify
+before_cache: "find $HOME/.m2 -name '*-SNAPSHOT' -a -type d -print0 | xargs -0 rm -rf"
+jobs:
+  include:
+    - if: repo = "veithen/rbeans" AND branch = master AND type = push
+      stage: deploy
+      script: mvn -B -s .travis-settings.xml -Prelease -Dgpg.skip=true -DskipTests=true deploy
+      env:
+        - secure: "JeAbd4sByPQVSJBFzBfNwrkPDg/j2SAmZ60Koifqk8wkaLePwtJ4RZmvhAHJCcy3R8vKCCd/nMB4zRNHHvL7vEePCLOEyAeWYyrD0uuGGVDVFjnKS4oCsa02rpjcjeIjvnw6seVFQ3NPbb4qQqrxDLR2TUUPVAaccQZ7Z0aXAN95zUbXdiMRtyYQBG24RuUV2rashdG3FU5MHZN01TmG1NlYZmQ76GWH+jPvu5sZK0N3jdqeE7O0F74PyLp/1e58CXZjY9ic87nlNHsD9xSKfMaPmzIi6BBZcjeyWtGkcA+Qdc4PS/YvE7roQYo3Mz956F8dnjtROn1JQvyadV0gCRFNCubzB9YK0Z5XIFSB4Cnu47oWAKHLy8Vz9ydYq1D/rC3snZBhCmjKIzp0wunSj3gLMb8f3fnP+oRt18WePiqteAOg+l6t/rhZemc7yNi6j+hiMsJkMHeBM12i97kM4vwIqKiEWhF/qf2EGx/jdSUdUVAWym26553JU5okv5kjrk2ChI31Swl+8kIn6ngfW8v52dd5fs1W1tAxFWka6tBS+hvTtv8OoxpNnDobbPyrSG9+B1YyFLO4FILjPghiy0yG4x8jdo9NXsfN2rtieloHW7/TkMJv+63q7Xnza3xOqRVDQKa11e8bAgXot5SlV0bf5SMPSKYMuZim1CTTAXc="
+cache:
+  directories:
+    - $HOME/.m2

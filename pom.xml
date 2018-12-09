@@ -29,7 +29,7 @@
 
     <groupId>com.github.veithen.rbeans</groupId>
     <artifactId>rbeans</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>RBeans (Reflection Beans)</name>
@@ -47,7 +47,7 @@
         <url>https://github.com/veithen/rbeans/tree/master</url>
         <connection>scm:git:http://github.com/veithen/rbeans.git</connection>
         <developerConnection>scm:git:https://github.com/veithen/rbeans.git</developerConnection>
-        <tag>0.1.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>

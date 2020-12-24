@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,13 +30,14 @@ public class DictionaryWrapper extends Dictionary {
     private final ObjectHandler keyHandler;
     private final ObjectHandler valueHandler;
     private final Dictionary parent;
-    
-    public DictionaryWrapper(ObjectHandler keyHandler, ObjectHandler valueHandler, Dictionary parent) {
+
+    public DictionaryWrapper(
+            ObjectHandler keyHandler, ObjectHandler valueHandler, Dictionary parent) {
         this.keyHandler = keyHandler;
         this.valueHandler = valueHandler;
         this.parent = parent;
     }
-    
+
     @Override
     public Enumeration elements() {
         return new EnumerationWrapper(valueHandler, parent.elements());
@@ -45,7 +46,7 @@ public class DictionaryWrapper extends Dictionary {
     @Override
     public Object get(Object key) {
         if (key instanceof RBean) {
-            key = ((RBean)key)._getTargetObject();
+            key = ((RBean) key)._getTargetObject();
         }
         return valueHandler.handle(parent.get(key));
     }
@@ -70,7 +71,7 @@ public class DictionaryWrapper extends Dictionary {
     @Override
     public Object remove(Object key) {
         if (key instanceof RBean) {
-            key = ((RBean)key)._getTargetObject();
+            key = ((RBean) key)._getTargetObject();
         }
         return valueHandler.handle(parent.remove(key));
     }

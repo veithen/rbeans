@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,27 +59,28 @@ public class RBeanTest {
         assertEquals("Hello (my value is somevalue)", rbean.sayHello());
         assertSame(target, rbean._getTargetObject());
     }
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateRBeanWithIncorrectType() throws Exception {
         RBeanFactory rbf = new RBeanFactory(DummyClass1RBean.class);
         rbf.createRBean(DummyClass1RBean.class, new Object());
     }
-    
+
     @Test
     public void testReturnValueWrapping() throws Exception {
         RBeanFactory rbf = new RBeanFactory(ParentRBean.class);
         ParentRBean rbean = rbf.createRBean(ParentRBean.class, new Parent());
         assertEquals("Hello", rbean.getChild().sayHello());
     }
-    
+
     @Test
     public void testSeeAlso() throws Exception {
         RBeanFactory rbf = new RBeanFactory(VehicleHolderRBean.class);
-        VehicleHolderRBean rbean = rbf.createRBean(VehicleHolderRBean.class, new VehicleHolder(new Car()));
+        VehicleHolderRBean rbean =
+                rbf.createRBean(VehicleHolderRBean.class, new VehicleHolder(new Car()));
         assertTrue(rbean.getVehicle() instanceof CarRBean);
     }
-    
+
     @Test
     public void testStaticRBean() throws Exception {
         RBeanFactory rbf = new RBeanFactory(StuffRegistryRBean.class);
@@ -89,51 +90,52 @@ public class RBeanTest {
         assertSame(stuff, rbean.getRegisteredStuff().get(0));
         assertSame(StuffRegistry.class, rbean._getTargetClass());
     }
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void testGetRBeanInfoWithInvalidArgument() throws Exception {
         RBeanFactory rbf = new RBeanFactory(TruckRBean.class);
         rbf.createRBean(StuffRegistryRBean.class);
     }
-    
-    @Test(expected=TargetClassNotFoundException.class)
+
+    @Test(expected = TargetClassNotFoundException.class)
     public void testNonExistingTargetClass() throws Exception {
         new RBeanFactory(NonExistingClassRBean.class);
     }
-    
-    @Test(expected=TargetMemberNotFoundException.class)
+
+    @Test(expected = TargetMemberNotFoundException.class)
     public void testNonExistingTargetMethod() throws Exception {
         new RBeanFactory(NonExistingMethodRBean.class);
     }
-    
-    @Test(expected=TargetMemberNotFoundException.class)
+
+    @Test(expected = TargetMemberNotFoundException.class)
     public void testNonExistingTargetAttribute() throws Exception {
         new RBeanFactory(NonExistingAttributeRBean.class);
     }
-    
+
     @Test
     public void testCyclicSeeAlso() throws Exception {
         RBeanFactory rbf = new RBeanFactory(CyclicSeeAlsoRBean1.class);
         // This would throw an exception if the factory didn't interpret the @SeeAlso annotation
         rbf.getRBeanInfo(CyclicSeeAlsoRBean2.class);
     }
-    
-    @Test(expected=MissingRBeanAnnotationException.class)
+
+    @Test(expected = MissingRBeanAnnotationException.class)
     public void testMissingRBeanAnnotation() throws Exception {
         new RBeanFactory(MissingAnnotationRBean.class);
     }
-    
+
     @Test
     public void testWithCollectionReturn() throws Exception {
         RBeanFactory rbf = new RBeanFactory(DriverManagerRBean.class);
         DriverManager driverManager = new DriverManager();
         driverManager.registerDriver(new Driver("test"));
-        DriverManagerRBean driverManagerRBean = rbf.createRBean(DriverManagerRBean.class, driverManager);
+        DriverManagerRBean driverManagerRBean =
+                rbf.createRBean(DriverManagerRBean.class, driverManager);
         DriverRBean driverRBean = driverManagerRBean.getDrivers().iterator().next();
         assertEquals("test", driverRBean.getName());
     }
-    
-    @Test(expected=TargetMemberNotFoundException.class)
+
+    @Test(expected = TargetMemberNotFoundException.class)
     public void testIncompatibleAttributeType() throws Exception {
         new RBeanFactory(IncompatibleAttributeTypeRBean.class);
     }

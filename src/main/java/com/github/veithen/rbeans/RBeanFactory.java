@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,33 +40,33 @@ import com.github.veithen.rbeans.collections.MapHandler;
 
 public class RBeanFactory {
     private final ClassLoader targetClassLoader;
-    // TODO: we use a LinkedHashMap to make the behavior of the factory reproducible (there seems to be a bug...)
-    private final Map<Class<?>,RBeanInfo> rbeanInfoMap = new LinkedHashMap<Class<?>,RBeanInfo>();
-    
+    // TODO: we use a LinkedHashMap to make the behavior of the factory reproducible (there seems to
+    // be a bug...)
+    private final Map<Class<?>, RBeanInfo> rbeanInfoMap = new LinkedHashMap<Class<?>, RBeanInfo>();
+
     public RBeanFactory(Class<?>... rbeanClasses) throws RBeanFactoryException {
         this(null, rbeanClasses);
     }
-    
+
     /**
      * Constructor.
-     * 
-     * @param targetClassLoader
-     *            Determines how target classes specified by {@link Target} are loaded. If a class
-     *            loader is specified, then all target classes will be loaded from that class
-     *            loader. If the parameter is <code>null</code>, then the target class specified by
-     *            a {@link Target} annotation will be loaded from the class loader of the interface
-     *            on which the annotation is used.
-     * @param rbeanClasses
-     *            a list of interfaces extending {@link RBean} or {@link StaticRBean}
+     *
+     * @param targetClassLoader Determines how target classes specified by {@link Target} are
+     *     loaded. If a class loader is specified, then all target classes will be loaded from that
+     *     class loader. If the parameter is <code>null</code>, then the target class specified by a
+     *     {@link Target} annotation will be loaded from the class loader of the interface on which
+     *     the annotation is used.
+     * @param rbeanClasses a list of interfaces extending {@link RBean} or {@link StaticRBean}
      * @throws RBeanFactoryException
      */
-    public RBeanFactory(ClassLoader targetClassLoader, Class<?>... rbeanClasses) throws RBeanFactoryException {
+    public RBeanFactory(ClassLoader targetClassLoader, Class<?>... rbeanClasses)
+            throws RBeanFactoryException {
         this.targetClassLoader = targetClassLoader;
         for (Class<?> rbeanClass : rbeanClasses) {
             load(rbeanClass);
         }
     }
-    
+
     public RBeanInfo getRBeanInfo(Class<?> rbeanClass) {
         RBeanInfo rbeanInfo = rbeanInfoMap.get(rbeanClass);
         if (rbeanInfo == null) {
@@ -74,7 +74,7 @@ public class RBeanFactory {
         }
         return rbeanInfo;
     }
-    
+
     RBeanInfo getRBeanInfoForTargetClass(Class<?> targetClass) {
         RBeanInfo result = null;
         for (RBeanInfo rbeanInfo : rbeanInfoMap.values()) {
@@ -86,7 +86,7 @@ public class RBeanFactory {
         }
         return result;
     }
-    
+
     private Class<?> getTargetClass(Class<?> rbeanClass) throws RBeanFactoryException {
         Class<?> targetClass = null;
         TargetClass targetClassAnnotation = rbeanClass.getAnnotation(TargetClass.class);
@@ -97,10 +97,12 @@ public class RBeanFactory {
         if (targetAnnotation != null) {
             if (targetClass != null) {
                 // TODO: use exception subclass
-                throw new RBeanFactoryException("Unexpected annotation @Target; already found @TargetClass");
+                throw new RBeanFactoryException(
+                        "Unexpected annotation @Target; already found @TargetClass");
             }
             String targetClassName = targetAnnotation.value();
-            ClassLoader cl = targetClassLoader == null ? rbeanClass.getClassLoader() : targetClassLoader;
+            ClassLoader cl =
+                    targetClassLoader == null ? rbeanClass.getClassLoader() : targetClassLoader;
             try {
                 targetClass = cl.loadClass(targetClassName);
             } catch (ClassNotFoundException ex) {
@@ -109,11 +111,12 @@ public class RBeanFactory {
         }
         if (targetClass == null) {
             // TODO: use exception subclass
-            throw new RBeanFactoryException("An RBean interface must be annotated with @Target or @TargetClass");
+            throw new RBeanFactoryException(
+                    "An RBean interface must be annotated with @Target or @TargetClass");
         }
         return targetClass;
     }
-    
+
     private void load(Class<?> rbeanClass) throws RBeanFactoryException {
         if (rbeanInfoMap.containsKey(rbeanClass)) {
             return;
@@ -125,11 +128,15 @@ public class RBeanFactory {
             isStatic = true;
         } else {
             // TODO: rename annotation
-            throw new MissingRBeanAnnotationException(rbeanClass.getName() + " neither implements "
-                    + RBean.class.getName() + " nor " + StaticRBean.class.getName());
+            throw new MissingRBeanAnnotationException(
+                    rbeanClass.getName()
+                            + " neither implements "
+                            + RBean.class.getName()
+                            + " nor "
+                            + StaticRBean.class.getName());
         }
         Class<?> targetClass = getTargetClass(rbeanClass);
-        Map<Method,MethodHandler> methodHandlers = new HashMap<Method,MethodHandler>();
+        Map<Method, MethodHandler> methodHandlers = new HashMap<Method, MethodHandler>();
         for (Method proxyMethod : rbeanClass.getMethods()) {
             boolean optional = proxyMethod.getAnnotation(Optional.class) != null;
             MethodHandler methodHandler;
@@ -148,7 +155,11 @@ public class RBeanFactory {
                         }
                     }
                     if (field != null) {
-                        valueHandler = getObjectHandler(proxyMethod.getGenericReturnType(), field.getGenericType(), proxyMethod.getAnnotation(Mapped.class) != null);
+                        valueHandler =
+                                getObjectHandler(
+                                        proxyMethod.getGenericReturnType(),
+                                        field.getGenericType(),
+                                        proxyMethod.getAnnotation(Mapped.class) != null);
                         if (valueHandler != null) {
                             break;
                         }
@@ -158,11 +169,13 @@ public class RBeanFactory {
                     if (optional) {
                         methodHandler = NullHandler.INSTANCE;
                     } else {
-                        throw new TargetMemberNotFoundException("The class " + targetClass.getName()
-                                + " doesn't contain any attribute assignment compatible with "
-                                + proxyMethod.getGenericReturnType()
-                                + " and with one of the following names: "
-                                + Arrays.asList(accessorAnnotation.name()));
+                        throw new TargetMemberNotFoundException(
+                                "The class "
+                                        + targetClass.getName()
+                                        + " doesn't contain any attribute assignment compatible with "
+                                        + proxyMethod.getGenericReturnType()
+                                        + " and with one of the following names: "
+                                        + Arrays.asList(accessorAnnotation.name()));
                     }
                 } else {
                     field.setAccessible(true);
@@ -176,16 +189,21 @@ public class RBeanFactory {
                 Method targetMethod;
                 // First try getMethod (because the method may actually be abstract) ...
                 try {
-                    targetMethod = targetClass.getMethod(proxyMethod.getName(), proxyMethod.getParameterTypes());
+                    targetMethod =
+                            targetClass.getMethod(
+                                    proxyMethod.getName(), proxyMethod.getParameterTypes());
                 } catch (NoSuchMethodException ex) {
                     targetMethod = null;
                 }
-                // ... then try getDeclaredMethod (on the class and its superclasses) so that we can invoke non public methods
+                // ... then try getDeclaredMethod (on the class and its superclasses) so that we can
+                // invoke non public methods
                 if (targetMethod == null) {
                     Class<?> declaringClass = targetClass;
                     while (declaringClass != null) {
                         try {
-                            targetMethod = declaringClass.getDeclaredMethod(proxyMethod.getName(), proxyMethod.getParameterTypes());
+                            targetMethod =
+                                    declaringClass.getDeclaredMethod(
+                                            proxyMethod.getName(), proxyMethod.getParameterTypes());
                             targetMethod.setAccessible(true);
                             break;
                         } catch (NoSuchMethodException ex) {
@@ -197,21 +215,31 @@ public class RBeanFactory {
                     if (optional) {
                         methodHandler = NullHandler.INSTANCE;
                     } else {
-                        throw new TargetMemberNotFoundException("No corresponding target method found for " + proxyMethod);
+                        throw new TargetMemberNotFoundException(
+                                "No corresponding target method found for " + proxyMethod);
                     }
                 } else {
-                    ObjectHandler returnHandler = getObjectHandler(proxyMethod.getGenericReturnType(), targetMethod.getGenericReturnType(), proxyMethod.getAnnotation(Mapped.class) != null);
+                    ObjectHandler returnHandler =
+                            getObjectHandler(
+                                    proxyMethod.getGenericReturnType(),
+                                    targetMethod.getGenericReturnType(),
+                                    proxyMethod.getAnnotation(Mapped.class) != null);
                     if (returnHandler == null) {
                         // TODO: create new exception class
-                        throw new RBeanFactoryException("The RBean method " + proxyMethod + " is not compatible with the target method "
-                                + targetMethod + " because the return types are incompatible");
+                        throw new RBeanFactoryException(
+                                "The RBean method "
+                                        + proxyMethod
+                                        + " is not compatible with the target method "
+                                        + targetMethod
+                                        + " because the return types are incompatible");
                     }
                     methodHandler = new SimpleMethodHandler(targetMethod, returnHandler);
                 }
             }
             methodHandlers.put(proxyMethod, methodHandler);
         }
-        rbeanInfoMap.put(rbeanClass, new RBeanInfo(rbeanClass, targetClass, isStatic, methodHandlers));
+        rbeanInfoMap.put(
+                rbeanClass, new RBeanInfo(rbeanClass, targetClass, isStatic, methodHandlers));
         SeeAlso seeAlso = rbeanClass.getAnnotation(SeeAlso.class);
         if (seeAlso != null) {
             for (Class<?> clazz : seeAlso.value()) {
@@ -219,39 +247,45 @@ public class RBeanFactory {
             }
         }
     }
-    
+
     private static Class<?> getRawType(Type genericType) throws RBeanFactoryException {
         if (genericType instanceof Class<?>) {
-            return (Class<?>)genericType;
+            return (Class<?>) genericType;
         } else if (genericType instanceof ParameterizedType) {
-            return (Class<?>)((ParameterizedType)genericType).getRawType();
+            return (Class<?>) ((ParameterizedType) genericType).getRawType();
         } else if (genericType instanceof GenericArrayType) {
-            return Array.newInstance(getRawType(((GenericArrayType)genericType).getGenericComponentType()), 0).getClass();
+            return Array.newInstance(
+                            getRawType(((GenericArrayType) genericType).getGenericComponentType()),
+                            0)
+                    .getClass();
         } else if (genericType instanceof TypeVariable<?>) {
             // TODO: not entirely correct
             return Object.class;
         } else if (genericType instanceof WildcardType) {
-            Type[] lowerBounds = ((WildcardType)genericType).getLowerBounds();
+            Type[] lowerBounds = ((WildcardType) genericType).getLowerBounds();
             return lowerBounds.length == 0 ? Object.class : getRawType(lowerBounds[0]);
         } else {
             throw new RBeanFactoryException("Unable to determine raw type for " + genericType);
         }
     }
-    
-    private ObjectHandler getObjectHandler(Type toType, Type fromType, boolean mapped) throws RBeanFactoryException {
+
+    private ObjectHandler getObjectHandler(Type toType, Type fromType, boolean mapped)
+            throws RBeanFactoryException {
         Class<?> toClass = getRawType(toType);
         Class<?> fromClass = getRawType(fromType);
         if (toClass == Map.class || toClass == Dictionary.class) {
             Type keyType;
             Type valueType;
             if (toType instanceof ParameterizedType) {
-                Type[] typeArguments = ((ParameterizedType)toType).getActualTypeArguments();
+                Type[] typeArguments = ((ParameterizedType) toType).getActualTypeArguments();
                 keyType = typeArguments[0];
                 valueType = typeArguments[1];
                 Class<?> keyClass = getRawType(keyType);
                 Class<?> valueClass = getRawType(valueType);
                 if (!mapped) {
-                    mapped = RBean.class.isAssignableFrom(keyClass) || RBean.class.isAssignableFrom(valueClass);
+                    mapped =
+                            RBean.class.isAssignableFrom(keyClass)
+                                    || RBean.class.isAssignableFrom(valueClass);
                     if (mapped) {
                         load(keyClass);
                         load(valueClass);
@@ -263,9 +297,13 @@ public class RBeanFactory {
             }
             if (mapped) {
                 if (toClass == Map.class) {
-                    return new MapHandler(getObjectHandler(keyType, Object.class, false), getObjectHandler(valueType, Object.class, false));
+                    return new MapHandler(
+                            getObjectHandler(keyType, Object.class, false),
+                            getObjectHandler(valueType, Object.class, false));
                 } else {
-                    return new DictionaryHandler(getObjectHandler(keyType, Object.class, false), getObjectHandler(valueType, Object.class, false));
+                    return new DictionaryHandler(
+                            getObjectHandler(keyType, Object.class, false),
+                            getObjectHandler(valueType, Object.class, false));
                 }
             } else {
                 return PassThroughHandler.INSTANCE;
@@ -281,7 +319,7 @@ public class RBeanFactory {
             if (isArray) {
                 itemClass = toClass.getComponentType();
             } else if (toClass.equals(Iterable.class)) {
-                itemClass = getRawType(((ParameterizedType)toType).getActualTypeArguments()[0]);
+                itemClass = getRawType(((ParameterizedType) toType).getActualTypeArguments()[0]);
             }
             if (itemClass != null && RBean.class.isAssignableFrom(itemClass)) {
                 load(itemClass);
@@ -291,30 +329,37 @@ public class RBeanFactory {
             }
         }
     }
-    
+
     public <T extends StaticRBean> T createRBean(Class<T> rbeanClass) {
         return rbeanClass.cast(createRBean(getRBeanInfo(rbeanClass), null));
     }
-    
-    // TODO: maybe we should check the runtime type of the object and return a subclass if necessary!
+
+    // TODO: maybe we should check the runtime type of the object and return a subclass if
+    // necessary!
     public <T extends RBean> T createRBean(Class<T> rbeanClass, Object object) {
         if (object == null) {
             throw new IllegalArgumentException("Object must not be null");
         }
         RBeanInfo rbeanInfo = getRBeanInfo(rbeanClass);
         if (!rbeanInfo.getTargetClass().isInstance(object)) {
-            throw new IllegalArgumentException(object.getClass().getName() + " is incompatble with "
-                    + rbeanClass.getName() + "'s target class " + rbeanInfo.getTargetClass().getName());
+            throw new IllegalArgumentException(
+                    object.getClass().getName()
+                            + " is incompatble with "
+                            + rbeanClass.getName()
+                            + "'s target class "
+                            + rbeanInfo.getTargetClass().getName());
         }
         return rbeanClass.cast(createRBean(rbeanInfo, object));
     }
-    
+
     Object createRBean(RBeanInfo rbeanInfo, Object object) {
         // The proxy should always be defined in the class loader from which the RBean interface
         // is loaded. Since that interface must extend RBean or StaticRBean, we are sure that
         // this is an application class loader.
         Class<?> rbeanClass = rbeanInfo.getRBeanClass();
-        return Proxy.newProxyInstance(rbeanClass.getClassLoader(),
-                new Class<?>[] { rbeanClass }, new RBeanInvocationHandler(rbeanInfo.getMethodHandlers(), object));
+        return Proxy.newProxyInstance(
+                rbeanClass.getClassLoader(),
+                new Class<?>[] {rbeanClass},
+                new RBeanInvocationHandler(rbeanInfo.getMethodHandlers(), object));
     }
 }

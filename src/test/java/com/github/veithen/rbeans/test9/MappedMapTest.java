@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,23 +36,23 @@ public class MappedMapTest {
         MapHolder mapHolder = new MapHolder();
         mapHolder.getMap().put(new Key("key"), new Value("value"));
         MapHolderRBean rbean = rbf.createRBean(MapHolderRBean.class, mapHolder);
-        Map<KeyRBean,ValueRBean> map = rbean.getMap();
+        Map<KeyRBean, ValueRBean> map = rbean.getMap();
         assertEquals(1, map.size());
     }
-    
+
     @Test
     public void testEntrySet() throws Exception {
         RBeanFactory rbf = new RBeanFactory(MapHolderRBean.class);
         MapHolder mapHolder = new MapHolder();
         mapHolder.getMap().put(new Key("key"), new Value("value"));
         MapHolderRBean rbean = rbf.createRBean(MapHolderRBean.class, mapHolder);
-        Iterator<Map.Entry<KeyRBean,ValueRBean>> it = rbean.getMap().entrySet().iterator();
+        Iterator<Map.Entry<KeyRBean, ValueRBean>> it = rbean.getMap().entrySet().iterator();
         assertTrue(it.hasNext());
-        Map.Entry<KeyRBean,ValueRBean> entry = it.next();
+        Map.Entry<KeyRBean, ValueRBean> entry = it.next();
         assertEquals("key", entry.getKey().getString());
         assertEquals("value", entry.getValue().getString());
     }
-    
+
     @Test
     public void testValues() throws Exception {
         RBeanFactory rbf = new RBeanFactory(MapHolderRBean.class);

@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.github.veithen</groupId>
         <artifactId>parent</artifactId>
-        <version>36</version>
+        <version>37</version>
     </parent>
 
     <groupId>com.github.veithen.rbeans</groupId>
@@ -52,6 +52,7 @@
 
     <properties>
         <github.repository>rbeans</github.repository>
+        <project.build.outputTimestamp>2022-01-23T12:16:00Z</project.build.outputTimestamp>
     </properties>
 
     <dependencies>

@@ -32,6 +32,7 @@ public class CollectionHandler extends ObjectHandler {
         this.fromArray = fromArray;
     }
 
+    @Override
     protected Object doHandle(Object object) {
         return new IterableWrapper(
                 objectHandler, fromArray ? Arrays.asList((Object[]) object) : (Iterable<?>) object);

@@ -30,6 +30,7 @@ public class SimpleMethodHandler implements MethodHandler {
         this.resultHandler = resultHandler;
     }
 
+    @Override
     public Object invoke(Object target, Object[] args) throws Throwable {
         return resultHandler.handle(targetMethod.invoke(target, args));
     }

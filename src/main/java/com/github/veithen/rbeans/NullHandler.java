@@ -28,6 +28,7 @@ public class NullHandler implements MethodHandler {
 
     private NullHandler() {}
 
+    @Override
     public Object invoke(Object target, Object[] args) throws Throwable {
         return null;
     }

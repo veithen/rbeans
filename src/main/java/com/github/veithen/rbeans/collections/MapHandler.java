@@ -33,6 +33,7 @@ public class MapHandler extends ObjectHandler {
         this.valueHandler = valueHandler;
     }
 
+    @Override
     protected Object doHandle(Object object) {
         return new MapWrapper(keyHandler, valueHandler, (Map) object);
     }

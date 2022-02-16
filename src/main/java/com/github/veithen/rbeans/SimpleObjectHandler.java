@@ -31,6 +31,7 @@ public class SimpleObjectHandler extends ObjectHandler {
         this.rbf = rbf;
     }
 
+    @Override
     protected Object doHandle(Object object) {
         RBeanInfo rbeanInfo = rbf.getRBeanInfoForTargetClass(object.getClass());
         return rbeanInfo == null ? object : rbf.createRBean(rbeanInfo, object);

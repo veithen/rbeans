@@ -22,6 +22,7 @@ package com.github.veithen.rbeans;
 public class PassThroughHandler extends ObjectHandler {
     public static final PassThroughHandler INSTANCE = new PassThroughHandler();
 
+    @Override
     protected Object doHandle(Object object) {
         return object;
     }

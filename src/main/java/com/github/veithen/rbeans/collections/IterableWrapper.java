@@ -33,6 +33,7 @@ public class IterableWrapper implements Iterable {
         this.parent = parent;
     }
 
+    @Override
     public Iterator iterator() {
         return new IteratorWrapper(objectHandler, parent.iterator());
     }

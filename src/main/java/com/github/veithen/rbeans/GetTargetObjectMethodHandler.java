@@ -29,6 +29,7 @@ public class GetTargetObjectMethodHandler implements MethodHandler {
 
     private GetTargetObjectMethodHandler() {}
 
+    @Override
     public Object invoke(Object target, Object[] args) throws Throwable {
         return target;
     }

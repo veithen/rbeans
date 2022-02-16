@@ -33,14 +33,17 @@ public class IteratorWrapper implements Iterator {
         this.parent = parent;
     }
 
+    @Override
     public boolean hasNext() {
         return parent.hasNext();
     }
 
+    @Override
     public Object next() {
         return objectHandler.handle(parent.next());
     }
 
+    @Override
     public void remove() {
         parent.remove();
     }

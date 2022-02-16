@@ -31,6 +31,7 @@ public class GetTargetClassMethodHandler implements MethodHandler {
         this.targetClass = targetClass;
     }
 
+    @Override
     public Object invoke(Object target, Object[] args) throws Throwable {
         return targetClass;
     }

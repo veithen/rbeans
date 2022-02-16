@@ -33,10 +33,12 @@ public class EnumerationWrapper implements Enumeration {
         this.parent = parent;
     }
 
+    @Override
     public boolean hasMoreElements() {
         return parent.hasMoreElements();
     }
 
+    @Override
     public Object nextElement() {
         return objectHandler.handle(parent.nextElement());
     }

@@ -30,6 +30,7 @@ public class AccessorHandler implements MethodHandler {
         this.valueHandler = valueHandler;
     }
 
+    @Override
     public Object invoke(Object target, Object[] args) throws Throwable {
         return valueHandler.handle(field.get(target));
     }

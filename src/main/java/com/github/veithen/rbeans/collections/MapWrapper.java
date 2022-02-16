@@ -49,58 +49,70 @@ public class MapWrapper implements Map {
         return valueHandler;
     }
 
+    @Override
     public int size() {
         return parent.size();
     }
 
+    @Override
     public Set entrySet() {
         return new SetWrapper(new MapEntryHandler(keyHandler, valueHandler), parent.entrySet());
     }
 
+    @Override
     public Set keySet() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Collection values() {
         return new CollectionWrapper(valueHandler, parent.values());
     }
 
+    @Override
     public void clear() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean containsKey(Object key) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean containsValue(Object value) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object get(Object key) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean isEmpty() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object put(Object key, Object value) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void putAll(Map t) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object remove(Object key) {
         // TODO
         throw new UnsupportedOperationException();

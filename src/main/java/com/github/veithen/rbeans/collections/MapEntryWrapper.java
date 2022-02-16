@@ -35,14 +35,17 @@ public class MapEntryWrapper implements Map.Entry {
         this.parent = parent;
     }
 
+    @Override
     public Object getKey() {
         return keyHandler.handle(parent.getKey());
     }
 
+    @Override
     public Object getValue() {
         return valueHandler.handle(parent.getValue());
     }
 
+    @Override
     public Object setValue(Object value) {
         // TODO
         throw new UnsupportedOperationException();

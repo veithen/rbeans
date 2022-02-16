@@ -33,6 +33,7 @@ public class RBeanInvocationHandler implements InvocationHandler {
         this.target = target;
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
             return methodHandlers.get(method).invoke(target, args);

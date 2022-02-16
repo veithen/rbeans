@@ -33,6 +33,7 @@ public class DictionaryHandler extends ObjectHandler {
         this.valueHandler = valueHandler;
     }
 
+    @Override
     protected Object doHandle(Object object) {
         return new DictionaryWrapper(keyHandler, valueHandler, (Dictionary) object);
     }

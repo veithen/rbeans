@@ -30,61 +30,73 @@ public class CollectionWrapper extends IterableWrapper implements Collection {
         super(objectHandler, parent);
     }
 
+    @Override
     public boolean add(Object o) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean addAll(Collection c) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void clear() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean contains(Object o) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean containsAll(Collection c) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean isEmpty() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean remove(Object o) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean removeAll(Collection c) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean retainAll(Collection c) {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public int size() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object[] toArray() {
         // TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object[] toArray(Object[] a) {
         // TODO
         throw new UnsupportedOperationException();

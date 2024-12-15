@@ -94,7 +94,6 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
                     <projectName>RBeans</projectName>
-                    <licenseName>apache_v2</licenseName>
                 </configuration>
             </plugin>
         </plugins>

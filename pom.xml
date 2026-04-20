@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.github.veithen</groupId>
         <artifactId>parent</artifactId>
-        <version>56</version>
+        <version>57</version>
     </parent>
 
     <groupId>com.github.veithen.rbeans</groupId>
@@ -53,6 +53,7 @@
     <properties>
         <github.repository>rbeans</github.repository>
         <project.build.outputTimestamp>2022-01-23T12:16:00Z</project.build.outputTimestamp>
+        <javaVersion>11</javaVersion>
     </properties>
 
     <dependencies>
@@ -77,14 +78,14 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.github.veithen.phos</groupId>
-                <artifactId>enforcer-maven-plugin</artifactId>
+                <groupId>de.obqo.decycle</groupId>
+                <artifactId>decycle-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <!-- TODO: fix problems and enable this -->
                         <phase>none</phase>
                         <goals>
-                            <goal>enforce</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
